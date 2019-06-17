@@ -17,6 +17,12 @@ if [ "$2" == "" ]; then
 fi
 LDAP_PASSWORD=$2
 
+if [ "$3" == "" ]; then
+        echo "fail: Unknow ip master"
+        exit
+fi
+ipMaster=$3
+
 for i in $(echo $1 | tr "." "\n")
 do
         domain="$domain,dc=$i"
@@ -352,7 +358,7 @@ echo "" >> $olcDbIndex
 
 # Config LDAP Consumer
 syncrepl="/home/ldap_slave/ldap/init/syncrepl.ldif"
-ipMaster="192.168.124.13"
+#ipMaster="192.168.124.13"
 echo "dn: olcDatabase={2}hdb,cn=config" > $syncrepl
 echo "changetype: modify" >> $syncrepl
 echo "add: olcSyncRepl" >> $syncrepl
