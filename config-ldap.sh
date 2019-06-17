@@ -42,13 +42,13 @@ fi
 if (( $(ps -ef | grep -v grep | grep slapd | wc -l) > 0 ))
 then
     #echo "SLAPD is running!!!"
-    if [ ! -f /home/ldap/ldap/init/setpasswd.ldif ]; then
+    if [ ! -f /home/ldap_slave/init/setpasswd.ldif ]; then
 	echo "Need ldif file"
 	exit
     fi 
 
     container="ldap"
-    docker_c="/home/ldap/ldap/docker-compose.yml"
+    docker_c="/home/ldap_slave/docker-compose.yml"
 
     # Update Password
     docker-compose -f $docker_c exec -d $container ldapadd -Y EXTERNAL -H ldapi:/// -f /home/init/setpasswd.ldif
@@ -60,8 +60,8 @@ then
     docker-compose -f $docker_c exec -d $container ldapmodify -Y EXTERNAL -H ldapi:/// -f /home/init/olcDbIndex.ldif
 
     #Create Base Domain
-    ldapadd -x -h 127.0.0.1 -D "cn=Manager,$LDAP_BASE_DN" -w $LDAP_PASSWORD -f /home/ldap/ldap/init/basedomain.ldif &>/dev/null
-    ldapadd -x -h 127.0.0.1 -D "cn=Manager,$LDAP_BASE_DN" -w $LDAP_PASSWORD -f /home/ldap/ldap/init/groups.ldif &>/dev/null
+    ldapadd -x -h 127.0.0.1 -D "cn=Manager,$LDAP_BASE_DN" -w $LDAP_PASSWORD -f /home/ldap_slave/init/basedomain.ldif &>/dev/null
+    ldapadd -x -h 127.0.0.1 -D "cn=Manager,$LDAP_BASE_DN" -w $LDAP_PASSWORD -f /home/ldap_slave/init/groups.ldif &>/dev/null
 
     #Config ACL
     docker-compose -f $docker_c exec -d $container ldapmodify -Y EXTERNAL -H ldapi:/// -f /home/init/config_acl.ldif
@@ -70,25 +70,25 @@ then
     docker-compose -f $docker_c exec -d $container ldapmodify -Y EXTERNAL -H ldapi:/// -f /home/init/config_olcLimits.ldif
 
     #Create ObjectClass datainfo.ldif
-    ldapadd -x -h 127.0.0.1 -D "cn=config" -w $LDAP_PASSWORD -f /home/ldap/ldap/init/schema/datainfo.ldif &>/dev/null
+    ldapadd -x -h 127.0.0.1 -D "cn=config" -w $LDAP_PASSWORD -f /home/ldap_slave/init/schema/datainfo.ldif &>/dev/null
 
     #Password Policy overlay (ppolicy)
-    ldapmodify -x -h 127.0.0.1 -D "cn=config" -w $LDAP_PASSWORD -a -f /home/ldap/ldap/init/schema/ppolicy.ldif &>/dev/null
+    ldapmodify -x -h 127.0.0.1 -D "cn=config" -w $LDAP_PASSWORD -a -f /home/ldap_slave/init/schema/ppolicy.ldif &>/dev/null
 
     #Password Policy overlay (mailrecipient)
-    ldapmodify -x -h 127.0.0.1 -D "cn=config" -w $LDAP_PASSWORD -a -f /home/ldap/ldap/init/schema/mailrecipient.ldif &>/dev/null
+    ldapmodify -x -h 127.0.0.1 -D "cn=config" -w $LDAP_PASSWORD -a -f /home/ldap_slave/init/schema/mailrecipient.ldif &>/dev/null
 
     #Load the module ppolicy
-    ldapmodify -x -h 127.0.0.1 -D "cn=config" -w $LDAP_PASSWORD -a -f /home/ldap/ldap/init/ppolicymodule.ldif &>/dev/null
+    ldapmodify -x -h 127.0.0.1 -D "cn=config" -w $LDAP_PASSWORD -a -f /home/ldap_slave/init/ppolicymodule.ldif &>/dev/null
 
     #Configure ppolicy overlay
-    ldapmodify -x -h 127.0.0.1 -D "cn=config" -w $LDAP_PASSWORD -a -f /home/ldap/ldap/init/ppolicyoverlay.ldif &>/dev/null
+    ldapmodify -x -h 127.0.0.1 -D "cn=config" -w $LDAP_PASSWORD -a -f /home/ldap_slave/init/ppolicyoverlay.ldif &>/dev/null
 
     #Definition of a password policy
-    ldapadd -x -h 127.0.0.1 -D "cn=Manager,$LDAP_BASE_DN" -w $LDAP_PASSWORD -f /home/ldap/ldap/init/definition_password_policy.ldif &>/dev/null
+    ldapadd -x -h 127.0.0.1 -D "cn=Manager,$LDAP_BASE_DN" -w $LDAP_PASSWORD -f /home/ldap_slave/init/definition_password_policy.ldif &>/dev/null
 
     #Enable Audit overlay
-    ldapadd -x -h 127.0.0.1 -D "cn=config" -w $LDAP_PASSWORD -f /home/ldap/ldap/init/audit.ldif &>/dev/null
+    ldapadd -x -h 127.0.0.1 -D "cn=config" -w $LDAP_PASSWORD -f /home/ldap_slave/init/audit.ldif &>/dev/null
 
     # Config TLS
     ldapconfigvol=`docker volume inspect --format '{{ .Mountpoint }}' ldap_ldapconfigvol`
@@ -97,9 +97,9 @@ then
 	ldapconfigvolcert=$ldapconfigvol"certs/"
 	ldapconfigvolfile=$ldapconfigvol"ldap.conf"
 	#mkdir /etc/openldap/certs
-        cp /home/ldap/ldap/init/certs/oldap1.pem $ldapconfigvolcert
-        cp /home/ldap/ldap/init/certs/oldap1.key $ldapconfigvolcert
-        cp /home/ldap/ldap/init/certs/ca_cert.pem $ldapconfigvolcert
+        /bin/cp /home/ldap_slave/init/certs/oldap1.pem $ldapconfigvolcert
+        /bin/cp /home/ldap_slave/init/certs/oldap1.key $ldapconfigvolcert
+        /bin/cp /home/ldap_slave/init/certs/ca_cert.pem $ldapconfigvolcert
 
 	echo "TLS_CACERT /etc/openldap/certs/ca_cert.pem" >> $ldapconfigvolfile
 	echo "TLS_REQCERT allow" >> $ldapconfigvolfile

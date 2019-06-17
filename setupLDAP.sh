@@ -32,7 +32,7 @@ basedn=`echo $domain |cut -c 2-`
 
 # Generated Password slappasswd
 adminPasswd=`slappasswd -s $LDAP_PASSWORD`
-setpasswd="/home/ldap_slave/ldap/init/setpasswd.ldif"
+setpasswd="/home/ldap_slave/init/setpasswd.ldif"
 echo "dn: olcDatabase={0}config,cn=config" > $setpasswd
 echo "changetype: modify" >> $setpasswd
 echo "add: olcRootPW" >> $setpasswd
@@ -40,7 +40,7 @@ echo "olcRootPW: $adminPasswd" >> $setpasswd
 echo "" >> $setpasswd
 
 #echo "======== Step 5 : Configure OpenLDAP Server ========" >> $logfile
-config="/home/ldap_slave/ldap/init/config.ldif"
+config="/home/ldap_slave/init/config.ldif"
 echo "dn: olcDatabase={1}monitor,cn=config" > $config
 echo "changetype: modify" >> $config
 echo "replace: olcAccess" >> $config
@@ -84,7 +84,7 @@ echo "  by * read" >> $config
 #echo "olcDbIndex: uid eq,pres,sub" >> $olcDbIndex
 #echo "" >> $olcDbIndex
 
-basedomain="/home/ldap_slave/ldap/init/basedomain.ldif"
+basedomain="/home/ldap_slave/init/basedomain.ldif"
 echo "dn: $basedn" > $basedomain
 echo "objectClass: top" >> $basedomain
 echo "objectClass: dcObject" >> $basedomain
@@ -151,7 +151,7 @@ echo "userPassword: $adminPasswd" >> $basedomain
 echo "" >> $basedomain
 
 
-groups="/home/ldap_slave/ldap/init/groups.ldif"
+groups="/home/ldap_slave/init/groups.ldif"
 echo "dn: cn=Administrator,ou=Group,$basedn" > $groups
 echo "objectClass: top" >> $groups
 echo "objectClass: groupOfNames" >> $groups
@@ -173,7 +173,7 @@ echo "member: uid=search,ou=People,$basedn" >> $groups
 echo "" >> $groups
 
 #echo "======== Step 7.1 : Config ACL ========" >> $logfile
-config_acl="/home/ldap_slave/ldap/init/config_acl.ldif"
+config_acl="/home/ldap_slave/init/config_acl.ldif"
 echo "dn: olcDatabase={2}hdb,cn=config" > $config_acl
 echo "replace: olcAccess" >> $config_acl
 echo "olcAccess: {0}to attrs=userPassword,sambaNTPassword,shadowLastChange" >> $config_acl
@@ -195,26 +195,26 @@ echo "  by peername.ip=192.168.0.0%255.255.0.0 anonymous read" >> $config_acl
 echo "  by users search" >> $config_acl
 echo "  by * none" >> $config_acl
 
-config_olcLimits="/home/ldap_slave/ldap/init/config_olcLimits.ldif"
+config_olcLimits="/home/ldap_slave/init/config_olcLimits.ldif"
 echo "dn: olcDatabase={2}hdb,cn=config" > $config_olcLimits
 echo "replace: olcLimits" >> $config_olcLimits
 echo "olcLimits: {0}group=\"cn=Administrator,ou=Group,$basedn\"" >> $config_olcLimits
 echo "  size.soft=unlimited size.hard=unlimited time.soft=unlimited time.hard=unlimited" >> $config_olcLimits
 
-addmodule="/home/ldap_slave/ldap/init/addmodule.ldif"
+addmodule="/home/ldap_slave/init/addmodule.ldif"
 echo "dn: cn=module,cn=config" > $addmodule
 echo "objectClass: olcModuleList" >> $addmodule
 echo "cn: module" >> $addmodule
 echo "olcModulePath: /usr/lib64/openldap" >> $addmodule
 echo "olcModuleLoad: memberof" >> $addmodule
 
-ppolicymodule="/home/ldap_slave/ldap/init/ppolicymodule.ldif"
+ppolicymodule="/home/ldap_slave/init/ppolicymodule.ldif"
 echo "dn: cn=module,cn=config" > $ppolicymodule
 echo "objectClass: olcModuleList" >> $ppolicymodule
 echo "cn: module" >> $ppolicymodule
 echo "olcModuleLoad: ppolicy.la" >> $ppolicymodule
 
-ppolicyoverlay="/home/ldap_slave/ldap/init/ppolicyoverlay.ldif"
+ppolicyoverlay="/home/ldap_slave/init/ppolicyoverlay.ldif"
 echo "dn: olcOverlay=ppolicy,olcDatabase={2}hdb,cn=config" > $ppolicyoverlay
 echo "objectClass: olcOverlayConfig" >> $ppolicyoverlay
 echo "objectClass: olcPPolicyConfig" >> $ppolicyoverlay
@@ -224,7 +224,7 @@ echo "olcPPolicyHashCleartext: FALSE" >> $ppolicyoverlay
 echo "olcPPolicyUseLockout: FALSE" >> $ppolicyoverlay
 echo "olcPPolicyForwardUpdates: FALSE" >> $ppolicyoverlay
 
-definition_password_policy="/home/ldap_slave/ldap/init/definition_password_policy.ldif"
+definition_password_policy="/home/ldap_slave/init/definition_password_policy.ldif"
 echo "dn: ou=Policies,$basedn" > $definition_password_policy
 echo "ou: Policies" >> $definition_password_policy
 echo "objectClass: organizationalUnit" >> $definition_password_policy
@@ -252,7 +252,7 @@ echo "pwdMustChange: FALSE" >> $definition_password_policy
 echo "pwdSafeModify: FALSE" >> $definition_password_policy
 echo "" >> $definition_password_policy
 
-audit="/home/ldap_slave/ldap/init/audit.ldif"
+audit="/home/ldap_slave/init/audit.ldif"
 echo "dn: cn=module{0},cn=config" > $audit
 echo "changetype: modify" >> $audit
 echo "add: olcModuleLoad" >> $audit
@@ -303,12 +303,12 @@ echo "expiration_days = 3650" >> oldap1.info
 /bin/certtool --generate-certificate --load-privkey /etc/ssl/private/oldap1.key --load-ca-certificate /etc/ssl/certs/ca_cert.pem --load-ca-privkey /etc/ssl/private/ca_key.pem --template oldap1.info --outfile /etc/ssl/certs/oldap1.pem
 
 #/bin/mkdir -p /etc/openldap/certs
-/bin/cp /etc/ssl/certs/oldap1.pem /home/ldap_slave/ldap/init/certs/oldap1.pem
-/bin/cp /etc/ssl/private/oldap1.key /home/ldap_slave/ldap/init/certs/oldap1.key
-/bin/cp /etc/ssl/certs/ca_cert.pem /home/ldap_slave/ldap/init/certs/ca_cert.pem
+/bin/cp /etc/ssl/certs/oldap1.pem /home/ldap_slave/init/certs/oldap1.pem
+/bin/cp /etc/ssl/private/oldap1.key /home/ldap_slave/init/certs/oldap1.key
+/bin/cp /etc/ssl/certs/ca_cert.pem /home/ldap_slave/init/certs/ca_cert.pem
 /bin/rm -f oldap1.info
 
-mod_ssl="/home/ldap_slave/ldap/init/mod_ssl.ldif"
+mod_ssl="/home/ldap_slave/init/mod_ssl.ldif"
 echo "dn: cn=config" > $mod_ssl
 echo "changetype: modify" >> $mod_ssl
 echo "add: olcTLSCACertificateFile" >> $mod_ssl
@@ -327,7 +327,7 @@ echo "replace: olcTLSVerifyClient" >> $mod_ssl
 echo "olcTLSVerifyClient: never" >> $mod_ssl
 
 # Add module syncprov.la
-mod_syncprov="/home/ldap_slave/ldap/init/mod_syncprov.ldif"
+mod_syncprov="/home/ldap_slave/init/mod_syncprov.ldif"
 echo "dn: cn=module,cn=config" > $mod_syncprov 
 echo "objectClass: olcModuleList" >> $mod_syncprov
 echo "cn: module" >> $mod_syncprov
@@ -335,7 +335,7 @@ echo "olcModulePath: /usr/lib64/openldap" >> $mod_syncprov
 echo "olcModuleLoad: syncprov.la" >> $mod_syncprov
 
 # config module syncprov
-syncprov="/home/ldap_slave/ldap/init/syncprov.ldif"
+syncprov="/home/ldap_slave/init/syncprov.ldif"
 echo "dn: olcOverlay=syncprov,olcDatabase={2}hdb,cn=config" > $syncprov
 echo "objectClass: olcOverlayConfig" >> $syncprov
 echo "objectClass: olcSyncProvConfig" >> $syncprov
@@ -343,7 +343,7 @@ echo "olcOverlay: syncprov" >> $syncprov
 echo "olcSpSessionLog: 100" >> $syncprov
 
 # config module syncprov olcDbIndex
-olcDbIndex="/home/ldap_slave/ldap/init/olcDbIndex.ldif"
+olcDbIndex="/home/ldap_slave/init/olcDbIndex.ldif"
 echo "dn: olcDatabase={2}hdb,cn=config" > $olcDbIndex
 echo "changetype: modify" >> $olcDbIndex
 echo "add: olcDbIndex" >> $olcDbIndex
@@ -357,7 +357,7 @@ echo "olcDbIndex: idcardno eq" >> $olcDbIndex
 echo "" >> $olcDbIndex
 
 # Config LDAP Consumer
-syncrepl="/home/ldap_slave/ldap/init/syncrepl.ldif"
+syncrepl="/home/ldap_slave/init/syncrepl.ldif"
 #ipMaster="192.168.124.13"
 echo "dn: olcDatabase={2}hdb,cn=config" > $syncrepl
 echo "changetype: modify" >> $syncrepl
