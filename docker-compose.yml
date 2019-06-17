@@ -9,7 +9,7 @@ services:
     volumes:
       - ldapdatavol:/var/lib/ldap
       - ldapconfigvol:/etc/openldap
-      - /home/ldap/ldap/init/:/home/init
+      - /home/ldap_slave/init/:/home/init
     networks:
       - overlay
     ports:
