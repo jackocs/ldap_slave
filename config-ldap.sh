@@ -91,7 +91,7 @@ then
     ldapadd -x -h 127.0.0.1 -D "cn=config" -w $LDAP_PASSWORD -f /home/ldap_slave/init/audit.ldif &>/dev/null
 
     # Config TLS
-    ldapconfigvol=`docker volume inspect --format '{{ .Mountpoint }}' ldap_ldapconfigvol`
+    ldapconfigvol=`docker volume inspect --format '{{ .Mountpoint }}' ldap_slave_ldapconfigvol`
     if [ -d $ldapconfigvol ]; then
 	ldapconfigvol+="/"
 	ldapconfigvolcert=$ldapconfigvol"certs/"
