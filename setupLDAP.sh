@@ -266,19 +266,20 @@ echo "olcOverlay: auditlog" >> $audit
 echo "olcAuditlogFile: /var/log/slapd/slapd.log" >> $audit
 echo "" >> $audit
 
-
 /bin/mkdir -p /etc/openldap/certs/
 /bin/mkdir -p /etc/ssl/private/
-/bin/certtool --generate-privkey > /etc/ssl/private/ca_key.pem
+#/bin/certtool --generate-privkey > /etc/ssl/private/ca_key.pem
+/bin/curl --silent http://$ipMaster:3000/api/v1/cert/read/$LDAP_DOMAIN/$LDAP_PASSWORD/cert/ > /etc/ssl/certs/ca_cert.pem
+/bin/curl --silent http://$ipMaster:3000/api/v1/cert/read/$LDAP_DOMAIN/$LDAP_PASSWORD/key/ > /etc/ssl/private/ca_key.pem
 /bin/certtool --generate-privkey > /etc/ssl/private/oldap1.key
 
-echo "cn = $LDAP_DOMAIN" > ca.info
-echo "ca" >> ca.info
-echo "cert_signing_key" >> ca.info
-echo "expiration_days = 3650" >> ca.info
+#echo "cn = $LDAP_DOMAIN" > ca.info
+#echo "ca" >> ca.info
+#echo "cert_signing_key" >> ca.info
+#echo "expiration_days = 3650" >> ca.info
 
-/bin/certtool --generate-self-signed --load-privkey /etc/ssl/private/ca_key.pem --template ca.info --outfile /etc/ssl/certs/ca_cert.pem
-/bin/rm -f ca.info
+#/bin/certtool --generate-self-signed --load-privkey /etc/ssl/private/ca_key.pem --template ca.info --outfile /etc/ssl/certs/ca_cert.pem
+#/bin/rm -f ca.info
 
 /bin/cp /etc/ssl/certs/ca_cert.pem /etc/openldap/certs/
 
@@ -358,7 +359,6 @@ echo "" >> $olcDbIndex
 
 # Config LDAP Consumer
 syncrepl="/home/ldap_slave/init/syncrepl.ldif"
-#ipMaster="192.168.124.13"
 echo "dn: olcDatabase={2}hdb,cn=config" > $syncrepl
 echo "changetype: modify" >> $syncrepl
 echo "add: olcSyncRepl" >> $syncrepl
