@@ -120,10 +120,12 @@ then
     docker-compose -f $docker_c exec -d $container ldapmodify -Y EXTERNAL -H ldapi:/// -f /home/init/syncrepl.ldif
 
     # config LDAP schema extra
-    listschema=$(ls /home/ldap_slave/init/schema/extra)
+    #listschema=$(ls /home/ldap_slave/init/schema/extra)
+    listschema=$(cat /home/ldap_slave/init/schema/extra/order.txt)
     for schema in $listschema
     do
-	fileschema="/home/ldap_slave/init/schema/extra/$schema"
+	#fileschema="/home/ldap_slave/init/schema/extra/$schema"
+	fileschema="/home/ldap_slave/init/schema/extra/$schema.ldif"
 	if [ -f "$fileschema" ] ; then
     		ldapmodify -x -h 127.0.0.1 -D "cn=config" -w $LDAP_PASSWORD -a -f $fileschema &>/dev/null
 	fi

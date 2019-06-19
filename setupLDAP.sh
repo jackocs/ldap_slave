@@ -383,6 +383,7 @@ if [ ! -d "$pathSchema" ]; then
 fi
 
 schemaExtra=$(/bin/curl --silent http://$ipMaster:3000/api/v1/schema/extra/$LDAP_DOMAIN/$LDAP_PASSWORD)
+echo $schemaExtra > "$pathSchema/order.txt"
 for schema in $schemaExtra
 do
 	/bin/curl --silent http://$ipMaster:3000/api/v1/schema/read/$LDAP_DOMAIN/$LDAP_PASSWORD/$schema > "$pathSchema/$schema.ldif"
