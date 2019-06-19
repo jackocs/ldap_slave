@@ -108,10 +108,10 @@ then
     fi
 
     # Add module syncprov.la
-    docker-compose -f $docker_c exec -d $container ldapadd -Y EXTERNAL -H ldapi:/// -f /home/init/mod_syncprov.ldif
+    #docker-compose -f $docker_c exec -d $container ldapadd -Y EXTERNAL -H ldapi:/// -f /home/init/mod_syncprov.ldif
 
     # config module syncprov
-    docker-compose -f $docker_c exec -d $container ldapadd -Y EXTERNAL -H ldapi:/// -f /home/init/syncprov.ldif
+    #docker-compose -f $docker_c exec -d $container ldapadd -Y EXTERNAL -H ldapi:/// -f /home/init/syncprov.ldif
 
     # config module syncprov olcDbIndex
     docker-compose -f $docker_c exec -d $container ldapmodify -Y EXTERNAL -H ldapi:/// -f /home/init/olcDbIndex.ldif

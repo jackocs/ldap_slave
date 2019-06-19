@@ -328,20 +328,20 @@ echo "replace: olcTLSVerifyClient" >> $mod_ssl
 echo "olcTLSVerifyClient: never" >> $mod_ssl
 
 # Add module syncprov.la
-mod_syncprov="/home/ldap_slave/init/mod_syncprov.ldif"
-echo "dn: cn=module,cn=config" > $mod_syncprov 
-echo "objectClass: olcModuleList" >> $mod_syncprov
-echo "cn: module" >> $mod_syncprov
-echo "olcModulePath: /usr/lib64/openldap" >> $mod_syncprov
-echo "olcModuleLoad: syncprov.la" >> $mod_syncprov
+#mod_syncprov="/home/ldap_slave/init/mod_syncprov.ldif"
+#echo "dn: cn=module,cn=config" > $mod_syncprov 
+#echo "objectClass: olcModuleList" >> $mod_syncprov
+#echo "cn: module" >> $mod_syncprov
+#echo "olcModulePath: /usr/lib64/openldap" >> $mod_syncprov
+#echo "olcModuleLoad: syncprov.la" >> $mod_syncprov
 
 # config module syncprov
-syncprov="/home/ldap_slave/init/syncprov.ldif"
-echo "dn: olcOverlay=syncprov,olcDatabase={2}hdb,cn=config" > $syncprov
-echo "objectClass: olcOverlayConfig" >> $syncprov
-echo "objectClass: olcSyncProvConfig" >> $syncprov
-echo "olcOverlay: syncprov" >> $syncprov
-echo "olcSpSessionLog: 100" >> $syncprov
+#syncprov="/home/ldap_slave/init/syncprov.ldif"
+#echo "dn: olcOverlay=syncprov,olcDatabase={2}hdb,cn=config" > $syncprov
+#echo "objectClass: olcOverlayConfig" >> $syncprov
+#echo "objectClass: olcSyncProvConfig" >> $syncprov
+#echo "olcOverlay: syncprov" >> $syncprov
+#echo "olcSpSessionLog: 100" >> $syncprov
 
 # config module syncprov olcDbIndex
 olcDbIndex="/home/ldap_slave/init/olcDbIndex.ldif"
