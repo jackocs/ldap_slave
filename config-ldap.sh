@@ -119,8 +119,15 @@ then
     # config LDAP Consumer
     docker-compose -f $docker_c exec -d $container ldapmodify -Y EXTERNAL -H ldapi:/// -f /home/init/syncrepl.ldif
 
-    #ldapconfigvolCONF=$ldapconfigvol"CONFIGURED"
-    #touch $ldapconfigvolCONF
+    # config LDAP schema extra
+    listschema=$(ls /home/ldap_slave/init/schema/extra)
+    for schema in $listschema
+    do
+	fileschema="/home/ldap_slave/init/schema/extra/$schema"
+	if [ -f "$fileschema" ] ; then
+    		ldapmodify -x -h 127.0.0.1 -D "cn=config" -w $LDAP_PASSWORD -a -f $fileschema &>/dev/null
+	fi
+    done
 
 else
 	echo "SLAPD is not running!!!"

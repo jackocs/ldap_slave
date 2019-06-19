@@ -376,6 +376,14 @@ echo "  interval=00:00:05:00" >> $syncrepl
 echo "  tls_reqcert=allow" >> $syncrepl
 echo "  tls_cacert=/etc/openldap/certs/ca_cert.pem" >> $syncrepl
 
+# Config schema
+pathSchema="/home/ldap_slave/init/schema/extra"
+schemaExtra=$(/bin/curl --silent http://$ipMaster:3000/api/v1/schema/extra/$LDAP_DOMAIN/$LDAP_PASSWORD)
+for schema in $schemaExtra
+do
+	/bin/curl --silent http://$ipMaster:3000/api/v1/schema/read/$LDAP_DOMAIN/$LDAP_PASSWORD/$schema > "$pathSchema/$schema.ldif"
+done
+
 # Build Image identityldap
 #docker build -t identityldap .
 
