@@ -378,6 +378,10 @@ echo "  tls_cacert=/etc/openldap/certs/ca_cert.pem" >> $syncrepl
 
 # Config schema
 pathSchema="/home/ldap_slave/init/schema/extra"
+if [ ! -d "$pathSchema" ]; then
+	/bin/mkdir $pathSchema	
+fi
+
 schemaExtra=$(/bin/curl --silent http://$ipMaster:3000/api/v1/schema/extra/$LDAP_DOMAIN/$LDAP_PASSWORD)
 for schema in $schemaExtra
 do
