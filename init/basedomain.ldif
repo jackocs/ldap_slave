@@ -1,0 +1,64 @@
+dn: dc=jitech,dc=co,dc=th
+objectClass: top
+objectClass: dcObject
+objectclass: organization
+o: jitech
+dc: jitech
+
+dn: cn=Manager,dc=jitech,dc=co,dc=th
+objectClass: organizationalRole
+cn: Manager
+description: Directory Manager
+
+dn: ou=People,dc=jitech,dc=co,dc=th
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Group,dc=jitech,dc=co,dc=th
+objectClass: organizationalUnit
+ou: Group
+
+dn: uid=admin,ou=People,dc=jitech,dc=co,dc=th
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: admin
+cn: Administrator Manager
+givenName: Administrator
+sn: Manager
+userPassword: {SSHA}7JbOPk9Re8hpzU2DvfUpXmho13Jacw6v
+
+dn: uid=ReplicaUser,ou=People,dc=jitech,dc=co,dc=th
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: ReplicaUser
+cn: ReplicaUser Manager
+givenName: ReplicaUser
+sn: Manager
+userPassword: {SSHA}7JbOPk9Re8hpzU2DvfUpXmho13Jacw6v
+
+dn: uid=help,ou=People,dc=jitech,dc=co,dc=th
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: help
+cn: Helpdesk Manager
+givenName: Helpdesk
+sn: Manager
+userPassword: {SSHA}7JbOPk9Re8hpzU2DvfUpXmho13Jacw6v
+
+dn: uid=search,ou=People,dc=jitech,dc=co,dc=th
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: search
+cn: Search Manager
+givenName: Search
+sn: Manager
+userPassword: {SSHA}7JbOPk9Re8hpzU2DvfUpXmho13Jacw6v
+

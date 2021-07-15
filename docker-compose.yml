@@ -5,7 +5,7 @@ services:
     image: ijapan/identityldap:1.0
     container_name: ldap
     environment:
-      - "TZ=Asia/Bangkok"
+      - 'TZ=Asia/Bangkok'
     volumes:
       - ldapdatavol:/var/lib/ldap
       - ldapconfigvol:/etc/openldap
@@ -13,14 +13,14 @@ services:
     networks:
       - overlay
     ports:
-      - "389:389"
-      - "636:636"
-    #logging:
-    #  driver: syslog
-    #  options:
-    #    syslog-address: "tcp://127.0.0.1:5514"
-    #    syslog-format: "rfc5424micro"
-    #    syslog-facility: "local4"
+      - '389:389'
+      - '636:636'
+    logging:
+      driver: syslog
+      options:
+        syslog-address: 'tcp://192.168.124.13:5514'
+        syslog-format: 'rfc5424micro'
+        syslog-facility: 'local4'
     restart: always
 
 networks:

@@ -1,0 +1,4 @@
+dn: olcDatabase={2}hdb,cn=config
+replace: olcLimits
+olcLimits: {0}group="cn=Administrator,ou=Group,dc=jitech,dc=co,dc=th"
+  size.soft=unlimited size.hard=unlimited time.soft=unlimited time.hard=unlimited

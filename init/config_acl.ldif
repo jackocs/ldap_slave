@@ -1,0 +1,20 @@
+dn: olcDatabase={2}hdb,cn=config
+replace: olcAccess
+olcAccess: {0}to attrs=userPassword,sambaNTPassword,shadowLastChange
+  by dn="cn=Manager,dc=jitech,dc=co,dc=th" write
+  by group="cn=Administrator,ou=Group,dc=jitech,dc=co,dc=th" write
+  by group="cn=Helpdesk,ou=Group,dc=jitech,dc=co,dc=th" write
+  by anonymous auth
+  by self write
+  by * none
+olcAccess: {1}to *
+  by dn="cn=Manager,dc=jitech,dc=co,dc=th" write
+  by group="cn=Administrator,ou=Group,dc=jitech,dc=co,dc=th" write
+  by group="cn=Helpdesk,ou=Group,dc=jitech,dc=co,dc=th" read
+  by group="cn=Operators,ou=Group,dc=jitech,dc=co,dc=th" read
+  by self write
+  by peername.regex=127.0.0.1 anonymous read
+  by peername.ip=172.16.0.0%255.240.0.0 anonymous read
+  by peername.ip=192.168.0.0%255.255.0.0 anonymous read
+  by users search
+  by * none

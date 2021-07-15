@@ -1,0 +1,19 @@
+dn: cn=Administrator,ou=Group,dc=jitech,dc=co,dc=th
+objectClass: top
+objectClass: groupOfNames
+cn: Administrator
+member: uid=admin,ou=People,dc=jitech,dc=co,dc=th
+member: uid=ReplicaUser,ou=People,dc=jitech,dc=co,dc=th
+
+dn: cn=Helpdesk,ou=Group,dc=jitech,dc=co,dc=th
+objectClass: top
+objectClass: groupOfNames
+cn: Helpdesk
+member: uid=help,ou=People,dc=jitech,dc=co,dc=th
+
+dn: cn=Operators,ou=Group,dc=jitech,dc=co,dc=th
+objectClass: top
+objectClass: groupOfNames
+cn: Operators
+member: uid=search,ou=People,dc=jitech,dc=co,dc=th
+

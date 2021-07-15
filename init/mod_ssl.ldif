@@ -1,0 +1,16 @@
+dn: cn=config
+changetype: modify
+add: olcTLSCACertificateFile
+olcTLSCACertificateFile: /etc/openldap/certs/ca_cert.pem
+-
+replace: olcTLSCertificateFile
+olcTLSCertificateFile: /etc/openldap/certs/oldap1.pem
+-
+replace: olcTLSCertificateKeyFile
+olcTLSCertificateKeyFile: /etc/openldap/certs/oldap1.key
+-
+replace: olcTLSCipherSuite
+olcTLSCipherSuite: TLSv1+RSA:!NULL
+-
+replace: olcTLSVerifyClient
+olcTLSVerifyClient: never
