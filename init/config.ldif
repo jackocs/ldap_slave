@@ -19,7 +19,7 @@ olcRootDN: cn=Manager,dc=jitech,dc=co,dc=th
 dn: olcDatabase={2}hdb,cn=config
 changetype: modify
 replace: olcRootPW
-olcRootPW: {SSHA}7JbOPk9Re8hpzU2DvfUpXmho13Jacw6v
+olcRootPW: {SSHA}UTgzgVA5dJEj2GEFZi4xCAd0jdE0bmxr
 
 dn: olcDatabase={2}hdb,cn=config
 add: olcAccess

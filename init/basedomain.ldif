@@ -27,7 +27,7 @@ uid: admin
 cn: Administrator Manager
 givenName: Administrator
 sn: Manager
-userPassword: {SSHA}7JbOPk9Re8hpzU2DvfUpXmho13Jacw6v
+userPassword: {SSHA}UTgzgVA5dJEj2GEFZi4xCAd0jdE0bmxr
 
 dn: uid=ReplicaUser,ou=People,dc=jitech,dc=co,dc=th
 objectClass: top
@@ -38,7 +38,7 @@ uid: ReplicaUser
 cn: ReplicaUser Manager
 givenName: ReplicaUser
 sn: Manager
-userPassword: {SSHA}7JbOPk9Re8hpzU2DvfUpXmho13Jacw6v
+userPassword: {SSHA}UTgzgVA5dJEj2GEFZi4xCAd0jdE0bmxr
 
 dn: uid=help,ou=People,dc=jitech,dc=co,dc=th
 objectClass: top
@@ -49,7 +49,7 @@ uid: help
 cn: Helpdesk Manager
 givenName: Helpdesk
 sn: Manager
-userPassword: {SSHA}7JbOPk9Re8hpzU2DvfUpXmho13Jacw6v
+userPassword: {SSHA}UTgzgVA5dJEj2GEFZi4xCAd0jdE0bmxr
 
 dn: uid=search,ou=People,dc=jitech,dc=co,dc=th
 objectClass: top
@@ -60,5 +60,5 @@ uid: search
 cn: Search Manager
 givenName: Search
 sn: Manager
-userPassword: {SSHA}7JbOPk9Re8hpzU2DvfUpXmho13Jacw6v
+userPassword: {SSHA}UTgzgVA5dJEj2GEFZi4xCAd0jdE0bmxr
 
