@@ -389,12 +389,6 @@ do
 	/bin/curl --silent http://$ipMaster:3000/api/v1/schema/read/$LDAP_DOMAIN/$LDAP_PASSWORD/$schema > "$pathSchema/$schema.ldif"
 done
 
-# create crontab monitor
-croncmd="/home/ldap_slave/monitor/getConnections.sh 2>&1"
-cronjob="* * * * * $croncmd"
-( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
-
-
 # Build Image identityldap
 #docker build -t identityldap .
 
